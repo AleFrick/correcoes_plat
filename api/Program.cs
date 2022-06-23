@@ -11,11 +11,14 @@ const string msgDeleteOk = "Dados removidos com sucesso.";
 //turmas
 app.MapPost("/turmas", (Turmas turma) =>{
   TurmasRepository.Add(turma);  
-  return msgInsertOk;  
+  return Results.Created($"/products /{turma.Codigo}", turma.Codigo);
 });
 app.MapGet("/turmas/{id}", ([FromRoute] int id ) =>{
   var turma = TurmasRepository.GetBy(id);
-  return turma;
+  if(turma != null){
+    return Results.Ok(turma);
+  }
+  return Results.NotFound();
 });
 app.MapPut("/turmas", (Turmas turma) =>{
   var TurmaSaved = TurmasRepository.GetBy(turma.Id);
@@ -23,37 +26,45 @@ app.MapPut("/turmas", (Turmas turma) =>{
   TurmaSaved.DtInicial = turma.DtInicial;
   TurmaSaved.DtFinal = turma.DtFinal;
   TurmaSaved.Codigo = turma.Codigo;
-  return msgUpdateOk;
+  return Results.Ok();
 });
-app.MapDelete("/turmas", ([FromRoute] int id) => {
+app.MapDelete("/turmas/{id}", ([FromRoute] int id) => {
   var TurmaDelete = TurmasRepository.GetBy(id);
   TurmasRepository.Remove(TurmaDelete);
-  return msgDeleteOk;
+  return Results.Ok();
 });
 
 //alunos
 app.MapPost("/alunos", (Alunos aluno) => {
     AlunosRepository.Add(aluno);
-    return msgInsertOk;
+    return Results.Ok();
 });
 app.MapGet("/alunos/{id}", ([FromRoute] int id ) => {
     var aluno = AlunosRepository.GetBy(id);
-    return aluno;
+    if(aluno != null){
+      return Results.Ok(aluno);
+    }
+    return Results.NotFound();
 });
 app.MapPut("/alunos", (Alunos aluno) => {
   var alunoSaved = AlunosRepository.GetBy(aluno.Id);
   alunoSaved.Nome = aluno.Nome;
   alunoSaved.Cpf = aluno.Cpf;
-  return msgUpdateOk;
+  return Results.Ok();
 });
 
 //atividades
 app.MapPost("/atividades", (Atividades atividade) => {
   AtividadesRepository.Add(atividade);
-  return msgInsertOk;
+  return Results.Ok();
 });
+
 app.MapGet("/atividades/{id}", ([FromRoute] int id) => {
   var atividade = AtividadesRepository.GetBy(id);
+  if(atividade != null){
+    return Results.Ok(atividade);
+  }
+  return Results.NotFound();
 });
 app.MapPut("/atividades", (Atividades atividade) => {
   var AtivSaved = AtividadesRepository.GetBy(atividade.Id);
@@ -61,7 +72,7 @@ app.MapPut("/atividades", (Atividades atividade) => {
   AtivSaved.Descricao = atividade.Descricao;
   AtivSaved.DtLimite = atividade.DtLimite;
   
-  return msgUpdateOk;
+  return Results.Ok();
 });
 
 //textos
