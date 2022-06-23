@@ -1,0 +1,1 @@
+docker run --name db_correcoes -e MYSQL_ROOT_PASSWORD=Rph\$WUFbLh84S{y -d mysql:tag
