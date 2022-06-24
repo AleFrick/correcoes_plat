@@ -2,10 +2,7 @@ public static class AtividadesRepository
 {
     public static List<Atividades> Atividades { get; set; } = Atividades = new List<Atividades>();
 
-    public static void Add(Atividades atividade)
-    {
-        if (Atividades == null)
-            Atividades = new List<Atividades>();
+    public static void Add(Atividades atividade){        
         Atividades.Add(atividade);
     }
 

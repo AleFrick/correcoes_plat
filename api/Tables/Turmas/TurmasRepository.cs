@@ -1,9 +1,7 @@
 public static class TurmasRepository{
   public static List<Turmas> Turmas {get;set;} = Turmas = new List<Turmas>();
 
-  public static void Add(Turmas turma){
-    if(Turmas == null)
-      Turmas = new List<Turmas>();
+  public static void Add(Turmas turma){    
     Turmas.Add(turma);
   }  
 

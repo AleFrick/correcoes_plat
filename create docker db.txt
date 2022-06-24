@@ -1,1 +1,20 @@
-docker run --name db_correcoes -e MYSQL_ROOT_PASSWORD=Rph\$WUFbLh84S{y -d mysql:tag
+sudo service docker start
+
+
+Download image: docker pull mysql
+
+create docker: docker run --name db_correcoes -e MYSQL_ROOT_PASSWORD=Rph\$WUFbLh84S{y -d mysql:latest
+
+sudo docker pull mcr.microsoft.com/mssql/server:2022-latest
+
+
+sudo docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=lU4Mj2USHaAp" \
+   -p 1433:1433 --name sql1 --hostname db_correcoes \
+   -d \
+   mcr.microsoft.com/mssql/server:2022-latest
+
+
+   /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Rph\$WUFbLh84S{y"
+
+
+   Sqlcmd -u sa -p lU4Mj2USHaAp 

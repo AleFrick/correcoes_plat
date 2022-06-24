@@ -1,13 +1,13 @@
-using SampleNamespace;
-using System.Web;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbContext>();
+
 var app = builder.Build();
-const string msgInsertOk = "Dados inseridos com sucesso.";
-const string msgUpdateOk = "Dados atualiados com sucesso.";
-const string msgDeleteOk = "Dados removidos com sucesso.";
+var configuration = app.Configuration;
+AlunosRepository.Init(configuration);
+
 //turmas
 app.MapPost("/turmas", (Turmas turma) =>{
   TurmasRepository.Add(turma);  
@@ -86,4 +86,16 @@ app.MapDelete("/textos", () => {
   return "Deletar Textoss";
 });
 
+if(app.Environment.IsStaging())
+  app.MapGet("/configuration/database", (IConfiguration configuration)=>{
+    return Results.Ok($"{configuration["database:connection"]}/{configuration["database:port"]}");  
+  });
+
 app.Run();
+
+public class ApplicationDbContext : DbContext {
+  public DbSet<Alunos> Alunos {get;set;}
+
+  protected override void OnConfiguring(DbContextOptionsBuilder options)
+    => options.UseSqlServer("Server=localhost;Database=Plataforma;User Id=sa;Password=lU4Mj2USHaAp;MultipleActiveResultSets=true;Encrypt=true;TrustServerCertificate=YES");                            
+}
